@@ -1,0 +1,25 @@
+{
+	"name": "trackify",
+	"version": "1.0.0",
+	"description": "A project tracking application with NestJS backend and Next.js frontend",
+	"scripts": {
+		"start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+		"start:backend": "cd backend && npm run start:dev",
+		"start:frontend": "cd frontend && npm run dev",
+		"install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+		"build": "concurrently \"npm run build:backend\" \"npm run build:frontend\"",
+		"build:backend": "cd backend && npm run build",
+		"build:frontend": "cd frontend && npm run build"
+	},
+	"devDependencies": {
+		"concurrently": "^8.2.2"
+	},
+	"keywords": [
+		"trackify",
+		"project-management",
+		"nestjs",
+		"nextjs"
+	],
+	"author": "",
+	"license": "ISC"
+}
