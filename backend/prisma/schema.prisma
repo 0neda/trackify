@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String?  @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Relations
+  assignedTasks Task[] @relation("TaskAssignee")
+  createdTasks Task[] @relation("TaskCreator")
+  taskAccess TaskAccess[]
+}
+
+
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  REVIEW
+  BLOCKED
+  DONE
+  CANCELLED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model Task {
+  id           Int         @id @default(autoincrement())
+  title        String
+  description  String?
+  observations String?
+  status       TaskStatus  @default(TODO)
+  priority     TaskPriority @default(MEDIUM)
+  startDate    DateTime?
+  dueDate      DateTime?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  // Relations
+  assigneeId   Int?
+  assignee     User?       @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  creatorId    Int
+  creator      User        @relation("TaskCreator", fields: [creatorId], references: [id])
+  taskAccess   TaskAccess[]
+  tags         TaskTag[]
+  dependencies TaskDependency[] @relation("DependentTask")
+  dependedBy   TaskDependency[] @relation("DependsOnTask")
+}
+
+
+
+model TaskAccess {
+  id          Int      @id @default(autoincrement())
+  accessLevel String   @default("view") // view, edit
+  grantedAt   DateTime @default(now())
+  // Relations
+  taskId      Int
+  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  @@unique([taskId, userId])
+}
+
+model Tag {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  color     String?   // hex color for UI
+  createdAt DateTime  @default(now())
+  // Relations
+  tasks     TaskTag[]
+}
+
+model TaskTag {
+  id     Int  @id @default(autoincrement())
+  taskId Int
+  task   Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  tagId  Int
+  tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  @@unique([taskId, tagId])
+}
+
+model TaskDependency {
+  id            Int  @id @default(autoincrement())
+  taskId        Int  // the dependent task
+  dependsOnId   Int  // the task it depends on
+  createdAt     DateTime @default(now())
+  // Relations
+  task          Task @relation("DependentTask", fields: [taskId], references: [id], onDelete: Cascade)
+  dependsOn     Task @relation("DependsOnTask", fields: [dependsOnId], references: [id], onDelete: Cascade)
+  @@unique([taskId, dependsOnId])
+}
