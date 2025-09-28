@@ -19,9 +19,12 @@ async function bootstrap() {
       'http://localhost:3001',
       'http://localhost:3000',
       'https://*.vercel.app',
+      'https://trackify-frontend-phi.vercel.app',
       'https://*.railway.app',
     ],
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   const port = parseInt(process.env.PORT || '3000', 10);
