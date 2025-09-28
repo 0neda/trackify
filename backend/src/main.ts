@@ -25,7 +25,11 @@ async function bootstrap() {
   });
 
   const port = parseInt(process.env.PORT || '3000', 10);
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
+  console.log(`🚀 Application is running on: http://0.0.0.0:${port}`);
 }
 
-bootstrap();
+bootstrap().catch(err => {
+  console.error('❌ Error starting application:', err);
+  process.exit(1);
+});
