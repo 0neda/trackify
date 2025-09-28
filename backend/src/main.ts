@@ -29,7 +29,7 @@ async function bootstrap() {
   console.log(`🚀 Application is running on: http://0.0.0.0:${port}`);
 }
 
-bootstrap().catch(err => {
+bootstrap().catch((err) => {
   console.error('❌ Error starting application:', err);
   process.exit(1);
 });
