@@ -14,22 +14,26 @@ Sistema de gerenciamento de tarefas colaborativo construído com Next.js e NestJ
 ### Backend
 
 1. Instale as dependências:
+
 ```bash
 cd backend
 npm install
 ```
 
 2. Configure as variáveis de ambiente:
+
 ```bash
 cp .env.example .env
 ```
 
 3. Execute as migrações:
+
 ```bash
 npx prisma migrate dev
 ```
 
 4. Inicie o servidor:
+
 ```bash
 npm run start:dev
 ```
@@ -37,17 +41,20 @@ npm run start:dev
 ### Frontend
 
 1. Instale as dependências:
+
 ```bash
 cd frontend
 npm install
 ```
 
 2. Configure as variáveis de ambiente:
+
 ```bash
 cp .env.example .env.local
 ```
 
 3. Inicie o servidor de desenvolvimento:
+
 ```bash
 npm run dev
 ```
@@ -69,7 +76,3 @@ npm run dev
 3. Commit suas mudanças
 4. Push para a branch
 5. Abra um Pull Request
-
-## Licença
-
-MIT License

@@ -14,7 +14,15 @@ async function bootstrap() {
       },
     }),
   );
-  app.enableCors();
-  await app.listen(process.env.PORT ?? 3001);
+  app.enableCors({
+    origin: [
+      'http://localhost:3001',
+      'http://localhost:3000',
+      'https://*.vercel.app', // Allow all Vercel domains
+    ].filter(Boolean),
+    credentials: true,
+  });
+  const port = process.env['PORT'] || 3000;
+  await app.listen(port);
 }
 void bootstrap();
