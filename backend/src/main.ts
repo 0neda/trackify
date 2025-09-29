@@ -18,11 +18,13 @@ async function bootstrap() {
     origin: [
       'http://localhost:3001',
       'http://localhost:3000',
-      'https://*.vercel.app', // Allow all Vercel domains
-    ].filter(Boolean),
+      'https://*.vercel.app',
+    ],
     credentials: true,
   });
-  const port = process.env['PORT'] || 3000;
+
+  const port = parseInt(process.env.PORT) || 3000;
   await app.listen(port);
 }
-void bootstrap();
+
+bootstrap();
