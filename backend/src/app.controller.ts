@@ -46,4 +46,10 @@ export class AppController {
   getProfile(@Request() req: AuthenticatedRequest) {
     return req.user;
   }
+
+  @SkipAuth()
+  @Get('health')
+  getHealth(): string {
+    return 'OK';
+  }
 }
