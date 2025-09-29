@@ -19,11 +19,12 @@ async function bootstrap() {
       'http://localhost:3001',
       'http://localhost:3000',
       'https://*.vercel.app',
+      'https://*.railway.app',
     ],
     credentials: true,
   });
 
-  const port = parseInt(process.env.PORT) || 3000;
+  const port = parseInt(process.env.PORT || '3000', 10);
   await app.listen(port);
 }
 
